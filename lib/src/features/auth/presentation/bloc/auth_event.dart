@@ -9,4 +9,10 @@ final class LoginRequested extends AuthEvent {
   LoginRequested({required this.email, required this.password});
 }
 
-final class LogoutRequested extends AuthEvent {} // Add this event
+final class LogoutRequested extends AuthEvent {
+  final BuildContext context;
+
+  LogoutRequested({required this.context});
+}
+
+final class AppStarted extends AuthEvent {}

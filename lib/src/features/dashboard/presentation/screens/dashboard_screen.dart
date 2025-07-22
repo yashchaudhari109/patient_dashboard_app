@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:patient_dashboard/src/features/dashboard/presentation/bloc/patient_bloc.dart';
 import 'package:patient_dashboard/src/features/dashboard/presentation/bloc/patient_state.dart';
 
-// Helper: capitalize first char
 extension StringCasing on String {
   String capitalize() =>
       isNotEmpty ? '${this[0].toUpperCase()}${substring(1)}' : this;
@@ -139,39 +138,39 @@ class DashboardScreen extends StatelessWidget {
                                       fontWeight: FontWeight.bold)),
                             ],
                           ),
+                          const SizedBox(height: 12),
+                          const Text('Status Summary',
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold)),
+                          const SizedBox(height: 8),
+                          Row(
+                            children: [
+                              _StatusChip(
+                                icon: patient.status.toLowerCase() == 'active'
+                                    ? Icons.check_circle
+                                    : Icons.error,
+                                label: patient.status.capitalize(),
+                                color: patient.status.toLowerCase() == 'active'
+                                    ? Colors.green
+                                    : Colors.red,
+                              ),
+                              const SizedBox(width: 12),
+                              _StatusChip(
+                                icon:
+                                    patient.billingStatus.toLowerCase() == 'ok'
+                                        ? Icons.payments
+                                        : Icons.warning,
+                                label: 'Billing: ${patient.billingStatus}',
+                                color:
+                                    patient.billingStatus.toLowerCase() == 'ok'
+                                        ? Colors.blue
+                                        : Colors.orange,
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                     ),
-                  ),
-
-                  const SizedBox(height: 32),
-
-                  const Text('Status Summary',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 8),
-                  Row(
-                    children: [
-                      _StatusChip(
-                        icon: patient.status.toLowerCase() == 'active'
-                            ? Icons.check_circle
-                            : Icons.error,
-                        label: patient.status.capitalize(),
-                        color: patient.status.toLowerCase() == 'active'
-                            ? Colors.green
-                            : Colors.red,
-                      ),
-                      const SizedBox(width: 12),
-                      _StatusChip(
-                        icon: patient.billingStatus.toLowerCase() == 'ok'
-                            ? Icons.payments
-                            : Icons.warning,
-                        label: 'Billing: ${patient.billingStatus}',
-                        color: patient.billingStatus.toLowerCase() == 'ok'
-                            ? Colors.blue
-                            : Colors.orange,
-                      ),
-                    ],
                   ),
 
                   const SizedBox(height: 32),

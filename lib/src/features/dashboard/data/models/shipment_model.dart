@@ -16,7 +16,7 @@ class MockApiService {
   Future<Patient> getPatientData() async {
     await Future.delayed(const Duration(seconds: 1));
     return Patient(
-      fullName: 'Jane Doe',
+      fullName: 'Yash',
       patientId: 'P12345678',
       currentPlan: 'Standard Plan',
       nextDeliveryDate: DateTime.now().add(const Duration(days: 15)),

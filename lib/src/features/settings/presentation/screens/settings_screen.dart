@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:patient_dashboard/src/features/auth/presentation/bloc/auth_bloc.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -13,8 +12,7 @@ class SettingsScreen extends StatelessWidget {
       body: Center(
         child: ElevatedButton(
           onPressed: () {
-            context.read<AuthBloc>().add(LogoutRequested());
-            context.go('/');
+            context.read<AuthBloc>().add(LogoutRequested(context: context));
           },
           child: const Text('Logout'),
         ),

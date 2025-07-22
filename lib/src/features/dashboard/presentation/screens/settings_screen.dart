@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:patient_dashboard/src/features/auth/data/repositories/auth_repository.dart';
+import 'package:patient_dashboard/src/features/auth/presentation/bloc/auth_bloc.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -13,10 +16,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // For demonstration, hard-code patient info
-    const String fullName = "Jane Doe";
+    const String fullName = "Yash";
     const String patientId = "PAT123";
-    const String email = "jane.doe@email.com";
 
     return Scaffold(
       appBar: AppBar(title: const Text('Settings')),
@@ -32,16 +33,41 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 child: const Icon(Icons.person, color: Colors.white, size: 32),
               ),
               const SizedBox(width: 15),
-              const Column(
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(fullName,
+                  const Text(fullName,
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-                  Text('Patient ID: $patientId',
+                  const Text('Patient ID: $patientId',
                       style: TextStyle(color: Colors.grey)),
-                  Text(email,
-                      style: TextStyle(color: Colors.grey, fontSize: 13)),
+                  FutureBuilder<String?>(
+                    future: context.read<AuthRepository>().getLoggedInEmail(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Text(
+                          'Loading...',
+                          style: TextStyle(color: Colors.grey, fontSize: 13),
+                        );
+                      } else if (snapshot.hasError) {
+                        return const Text(
+                          'Error fetching email',
+                          style: TextStyle(color: Colors.red, fontSize: 13),
+                        );
+                      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                        return const Text(
+                          'No email',
+                          style: TextStyle(color: Colors.grey, fontSize: 13),
+                        );
+                      } else {
+                        return Text(
+                          snapshot.data!,
+                          style:
+                              const TextStyle(color: Colors.grey, fontSize: 13),
+                        );
+                      }
+                    },
+                  )
                 ],
               ),
             ],
@@ -101,10 +127,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   leading: const Icon(Icons.logout, color: Colors.redAccent),
                   title: const Text('Logout',
                       style: TextStyle(color: Colors.redAccent)),
-                  onTap: () {
-                    // TODO: Implement logout logic
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, '/', (route) => false);
+                  onTap: () async {
+                    context
+                        .read<AuthBloc>()
+                        .add(LogoutRequested(context: context));
                   },
                 ),
               ],

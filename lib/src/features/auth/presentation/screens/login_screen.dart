@@ -54,11 +54,9 @@ class _LoginScreenState extends State<LoginScreen>
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      // Extend behind the status bar with a gradient background
       body: Stack(
         fit: StackFit.expand,
         children: [
-          // Background Gradient
           Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
@@ -71,16 +69,18 @@ class _LoginScreenState extends State<LoginScreen>
           // Content
           BlocConsumer<AuthBloc, AuthState>(
             listener: (context, state) {
-              if (state is AuthFailure) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(state.error),
-                    backgroundColor: Colors.red,
-                  ),
-                );
-              }
-              if (state is AuthSuccess) {
+              if (state is AuthAuthenticated) {
                 context.go('/dashboard');
+              }
+              if (state is AuthFailure) {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(state.error),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                });
               }
             },
             builder: (context, state) {

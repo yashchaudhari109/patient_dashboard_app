@@ -13,37 +13,31 @@ import 'package:patient_dashboard/src/features/dashboard/presentation/screens/sh
 import 'package:patient_dashboard/src/features/dashboard/presentation/widgets/bottom_nav_bar.dart';
 
 Future<void> main() async {
-  // Ensure Flutter bindings are initialized
   WidgetsFlutterBinding.ensureInitialized();
-
-  // Check if the user is logged in
   final authRepository = AuthRepository();
-  final bool isLoggedIn = await authRepository.isLoggedIn();
-
-  runApp(MyApp(isLoggedIn: isLoggedIn, authRepository: authRepository));
+  runApp(MyApp(authRepository: authRepository));
 }
 
 class MyApp extends StatelessWidget {
-  final bool isLoggedIn;
   final AuthRepository authRepository;
 
   const MyApp({
     super.key,
-    required this.isLoggedIn,
     required this.authRepository,
   });
 
   @override
   Widget build(BuildContext context) {
-    // Provide the AuthRepository to the app
     return RepositoryProvider.value(
       value: authRepository,
       child: BlocProvider(
-        create: (context) => AuthBloc(context.read<AuthRepository>()),
+        create: (context) =>
+            AuthBloc(context.read<AuthRepository>())..add(AppStarted()),
         child: Builder(
           builder: (context) {
             final router = _buildRouter(context);
             return MaterialApp.router(
+              debugShowCheckedModeBanner: false,
               routerConfig: router,
               title: 'Patient Dashboard',
               theme: ThemeData(
@@ -59,14 +53,15 @@ class MyApp extends StatelessWidget {
 
   GoRouter _buildRouter(BuildContext context) {
     return GoRouter(
-      initialLocation: isLoggedIn ? '/dashboard' : '/',
-      // Add a redirect to handle logout
+      initialLocation: '/',
       redirect: (context, state) {
         final authState = context.read<AuthBloc>().state;
-        final loggingOut = state.matchedLocation == '/';
+        final isLogin = state.matchedLocation == '/';
 
-        // If the user is logging out, redirect to the login screen
-        if (authState is AuthInitial && !loggingOut) {
+        if (authState is AuthAuthenticated && isLogin) {
+          return '/dashboard';
+        }
+        if (authState is! AuthAuthenticated && !isLogin) {
           return '/';
         }
         return null;
