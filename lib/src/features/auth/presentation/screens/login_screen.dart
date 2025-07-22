@@ -102,7 +102,7 @@ class _LoginScreenState extends State<LoginScreen>
                       ),
                       const SizedBox(height: 18),
                       // Welcome Text
-                      Text(
+                      const Text(
                         'Welcome Back!',
                         style: TextStyle(
                           color: Colors.white,
@@ -119,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen>
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 10),
-                      Text(
+                      const Text(
                         "Login to your Patient Dashboard",
                         textAlign: TextAlign.center,
                         style: TextStyle(

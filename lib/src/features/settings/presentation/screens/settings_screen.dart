@@ -13,7 +13,6 @@ class SettingsScreen extends StatelessWidget {
       body: Center(
         child: ElevatedButton(
           onPressed: () {
-            // Add logout event and navigate to login screen
             context.read<AuthBloc>().add(LogoutRequested());
             context.go('/');
           },

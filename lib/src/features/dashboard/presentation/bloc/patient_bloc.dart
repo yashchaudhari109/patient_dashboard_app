@@ -16,7 +16,6 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
   ) async {
     emit(PatientLoading());
     try {
-      // Fetch both patient data and shipment history
       final patient = await _apiService.getPatientData();
       final shipments = await _apiService.getShipmentHistory();
       emit(PatientLoaded(patient: patient, shipments: shipments));

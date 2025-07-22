@@ -256,7 +256,6 @@ class _AnimatedListItemState extends State<_AnimatedListItem>
       duration: const Duration(milliseconds: 500),
     );
 
-    // Stagger the animation start time based on the item's index
     final delay = Duration(milliseconds: widget.index * 100);
     Future.delayed(delay, () {
       if (mounted) {

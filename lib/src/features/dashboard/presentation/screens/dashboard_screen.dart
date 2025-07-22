@@ -42,17 +42,17 @@ class DashboardScreen extends StatelessWidget {
                         end: Alignment.bottomRight,
                       ),
                       borderRadius: BorderRadius.circular(16),
-                      boxShadow: [
+                      boxShadow: const [
                         BoxShadow(blurRadius: 8, color: Colors.black12)
                       ],
                     ),
                     padding: const EdgeInsets.all(20),
                     child: Row(
                       children: [
-                        CircleAvatar(
+                        const CircleAvatar(
                           radius: 35,
                           backgroundColor: Colors.white,
-                          child: const Icon(Icons.person,
+                          child: Icon(Icons.person,
                               size: 40, color: Colors.deepPurple),
                         ),
                         const SizedBox(width: 18),
@@ -120,7 +120,7 @@ class DashboardScreen extends StatelessWidget {
                                   style: TextStyle(
                                       color: Colors.black54,
                                       fontWeight: FontWeight.w500)),
-                              Text("${patient.currentPlan}",
+                              Text(patient.currentPlan,
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold)),
                             ],
@@ -146,7 +146,6 @@ class DashboardScreen extends StatelessWidget {
 
                   const SizedBox(height: 32),
 
-                  // Status Summary with creative chips
                   const Text('Status Summary',
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),

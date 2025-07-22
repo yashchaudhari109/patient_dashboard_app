@@ -13,7 +13,6 @@ class Shipment {
 }
 
 class MockApiService {
-  // Simulate fetching patient data
   Future<Patient> getPatientData() async {
     await Future.delayed(const Duration(seconds: 1));
     return Patient(
